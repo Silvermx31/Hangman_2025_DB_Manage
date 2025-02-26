@@ -4,7 +4,7 @@ from views.View import View
 
 if __name__ == '__main__':
     model = Model()
-    view = View(model)
-    Controller(model, view)
-
+    view = View(model, None)
+    controller = Controller(model, view)
+    view.set_controller(controller)
     view.mainloop() # Koodi "viimane" rida
