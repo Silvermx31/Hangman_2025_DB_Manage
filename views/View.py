@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter import messagebox
 from tkinter.ttk import Combobox, Treeview, Button, Scrollbar
 
 class View(Tk):
@@ -117,11 +118,26 @@ class View(Tk):
         self.__myTable.pack(fill=BOTH, expand=True)
         self.__btn_open_db = Button(self.__frame_right, text="Ava andmebaas")
         self.__btn_open_db.grid(row=3, column=1, padx=1, sticky=EW)
+        self.get_my_table.bind('<Double-1>', self.on_row_double_click)
 
     def set_controller(self, controller):
         """ Seob kontrolleri pärast selle loomist """
         self.controller = controller
         self.__btn_open_db.config(command=self.controller.open_database)  # Seob nupu funktsiooniga
+
+    def on_row_double_click(self, event):
+        """
+        Kui kasutaja teeb tabelis topeltklõpsu, avaneb popup aken valitud info näitamiseks.
+        """
+        selected_item = self.get_my_table.selection()
+        if selected_item:
+            row_values = self.get_my_table.item(selected_item, 'values')
+            word_id, word, category = row_values[1], row_values[2], row_values[3]
+
+    # Näitame pop-up aknas infot
+        self.get_txt_word.delete(0, END)
+        self.get_txt_word.insert(0, word)
+        self.get_combo_categories.set(category)
 
     # Getterid, mida kontroller vajab
     @property
